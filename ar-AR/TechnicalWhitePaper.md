@@ -73,155 +73,157 @@
 
 <!-- /MarkdownTOC -->
 
-# Background
+# الخلفية
 
-Blockchain technology was introduced in 2008 with the launch of the Bitcoin currency, and since then entrepreneurs and developers have attempted to generalize the technology to support a wider range of applications on a single blockchain platform.
+طلقت تقنية البلوكتشين في عام 2008 مع إطلاق عملة البيتكوين "Bitcoin"، ومنذ ذلك الحين حاول رواد الأعمال والمطورون تعميم هذه التقنية لتمكينها من دعم نطاق أوسع من التطبيقات على منصة بلوكتشين واحدة. 
 
-While a number of blockchain platforms have struggled to support functional decentralized applications, application specific blockchains such as the BitShares decentralized exchange (2014) and Steem social media platform (2016) have become heavily used blockchains with tens of thousands of daily active users. They have achieved this by increasing performance to thousands of transactions per second, reducing latency to 1.5 seconds, eliminating per-transaction fees, and providing a user experience similar to those currently provided by existing centralized services.
+في حين واجهت العديد من منصات البلوكتشين صعوبات في دعم التطبيقات اللامركزية الوظيفية، وأصبحت شبكات البلوكتشين محددة التطبيق مثل BitShares للتداول اللامركزي (2014) ومنصة Steem للتواصل الاجتماعي (2016) من البلوكتشين التي تُستخدم استخدامًا ضخمًا في ظل وجود عشرات الآلاف من المستخدمين النشطين يوميا. وقد تمكنا من تحقيق ذلك عبر زيادة الأداء إلى آلاف المعاملات في الثانية الواحدة، والحد من زمن التأخر إلى ثانية ونصف (1.5)، وإلغاء الرسوم لكل معاملة وتقديم تجربة مستخدم مماثلة لتلك التي توفرها حاليًا الخدمات المركزية القائمة.  
 
-Existing blockchain platforms are burdened by large fees and limited computational capacity that prevent widespread blockchain adoption.
+تعاني منصات البلوكتشين القائمة من الرسوم الكبيرة وقدرة الحوسبة المحدودة التي تمنع اعتماد البلوكتشين على نطاق واسع.
 
-# Requirements for Blockchain Applications
+# متطلبات تطبيقات البلوكتشين
 
-In order to gain widespread use, applications on the blockchain require a platform that is flexible enough to meet the following requirements:
+لغرض تحقيق استخدام واسع النطاق، تتطلب التطبيقات على البلوكتشين وجود منصة مرنة بما يكفي لتلبية المتطلبات التالية:
 
-## Support Millions of Users
+## دعم الملايين من المستخدمين
 
-Competing with businesses such as eBay, Uber, AirBnB, and Facebook, require blockchain technology capable of handling tens of millions of active daily users. In certain cases, an application may not work unless a critical mass of users is reached and therefore a platform that can handle very large numbers of users is paramount.
+يتطلب التنافس مع شركات مثل إيباي "eBay" وأوبر "Uber" وإير بي أن بي "AirBnB" وفيسبوك "Facebook" وجود تقنية بلوكتشين قادرة على التعامل مع عشرات الملايين من المستخدمين النشطين يوميًا. في بعض الحالات المخصوصة، قد لا يعمل التطبيق بدون الوصول إلى كتلة حرجة من المستخدمين، وبالتالي فإن وجود منصة يمكنها التعامل مع عدد كبير جدًا من المستخدمين أمرٌ بالغ الأهمية.
 
-## Free Usage
+## الاستخدام المجاني
 
-Application developers need the flexibility to offer users free services; users should not have to pay in order to use the platform or benefit from its services. A blockchain platform that is free to use for users will likely gain more widespread adoption. Developers and businesses can then create effective monetization strategies.
+يحتاج مطورو التطبيقات إلى المرونة ليمكنهم تقديم خدمات مجانية للمستخدمين؛ لا ينبغي على المستخدمين الدفع مقابل استخدام المنصة أو الاستفادة من خدماتها. فمن المرجح أن تحظى منصة بلوكتشين مجانية على إقبال أكثر من المستخدمين. ويمكن حينها للمطورين والشركات إنشاء استراتيجيات فعالة لتحقيق الدخل.
 
-## Easy Upgrades and Bug Recovery
+## سهولة في الترقيات ومعالجة الأخطاء
 
-Businesses building blockchain based applications need the flexibility to enhance their applications with new features. The platform must support software and smart contract upgrades.
+تحتاج الشركات التي تٌنشئ تطبيقات معتمدة على البلوكتشين إلى المرونة لتتمكن من تعزيز تطبيقاتها بميزات جديدة. يجب أن تدعم المنصة خاصية ترقيات البرمجيات (البرامج) والعقود الذكية. 
 
-All non-trivial software is subject to bugs, even with the most rigorous of formal verification. The platform must be robust enough to fix bugs when they inevitably occur.
+تتعرض جميع البرامج المعقدة للأعطاب، حتى مع أكثر طرق التحقق الرسمي صرامة. يجب أن تكون المنصة قوية بما يكفي لإصلاح الأخطاء الحتمية عندما تحدث.
 
-## Low Latency
+## التأخر المنخفض
 
-A good user experience demands reliable feedback with a delay of no more than a few seconds. Longer delays frustrate users and make applications built on a blockchain less competitive with existing non-blockchain alternatives. The platform should support low latency of transactions.
+للحصول على تجربة مستخدم جيدة؛ يتطلب الأمر الحصول على تعقيبات موثوقة ذات تأخير لا يزيد عن بضع ثوانٍ. يؤدي التأخير الطويل إلى إحباط المستخدمين وجعل التطبيقات المبنية على البلوكتشين أقل تنافسية مع البدائل الحالية بعيدًا عن تقنية البلوكتشين. يجب أن تدعم المنصة إجراء المعاملات بتأخرٍ منخفض.
 
-## Sequential Performance
+## الأداء المتسلسل
 
-There are some applications that just cannot be implemented with parallel algorithms due to sequentially dependent steps. Applications such as exchanges need enough sequential performance to handle high volumes. Therefore, the platform should support fast sequential performance.
+توجد بعض التطبيقات التي لا يمكن تنفيذها بواسطة الخوارزميات المتوازية؛ وذلك نتيجة وجود خطوات تعتمد على التسلسل. تحتاج بعض التطبيقات مثل منصات التداول إلى أداء تسلسلي كافٍ لمعالجة الكميات الكبيرة. لذلك، يجب أن تدعم المنصة الأداء المتسلسل السريع.
 
-## Parallel Performance
+## المعالجة المتوازية
 
-Large scale applications need to divide the workload across multiple CPUs and computers.
+تحتاج التطبيقات كبيرة الحجم إلى تقسيم أحمال العمل عبر وحدات المعالجة مركزية (CPU) وحواسيب متعددة.
 
-# Consensus Algorithm (BFT-DPOS)
+# خوارزمية الإجماع (BFT-DPOS)
 
-EOS.IO software utilizes the only known decentralized consensus algorithm proven capable of meeting the performance requirements of applications on the blockchain, [Delegated Proof of Stake (DPOS)](https://steemit.com/dpos/@dantheman/dpos-consensus-algorithm-this-missing-white-paper). Under this algorithm, those who hold tokens on a blockchain adopting the EOS.IO software may select block producers through a continuous approval voting system. Anyone may choose to participate in block production and will be given an opportunity to produce blocks, provided they can persuade token holders to vote for them.
+تستخدم برمجيات EOS.IO خوارزمية الإجماع اللامركزي الوحيدة التي اثبتت قدرتها على الوفاء بمتطلبات الأداء للتطبيقات على البلوكتشين، إثبات الحصة بالتفويض والمعروف اختصارًا ب(DPOS). في ظل هذه الخوارزمية، يمكن لحاملي الرموز على البلوكتشين الذي يستخدم برنامج EOS.IO بتحديد المنتجين من خلال نظام الموافقة بالتصويت المستمر. قد يختار أي شخص المشاركة في إنتاج الكتل وسيُمنح فرصة لإنتاجها؛ شريطة أن يتمكن من إقناع حاملي الرموز بالتصويت له. 
 
-The EOS.IO software enables blocks to be produced exactly every 0.5 second and exactly one producer is authorized to produce a block at any given point in time. If the block is not produced at the scheduled time, then the block for that time slot is skipped. When one or more blocks are skipped, there is a 0.5 or more second gap in the blockchain.
+يُمكّن برنامج EOS.IO من إنتاج الكتل كل 0.5 ثانية؛ ويسمح لمنتج واحد تحديدًا بإنتاج كتلة في أي وقت من الأوقات. إذا لم تُنتج الكتلة في الوقت المحدد وفقًا للجدول، فستُتخطى هذه الكتلة الخاصة بهذا الوقت المحدد. عند تخطي كتلة واحدة أو أكثر، يكون هناك فجوة زمنية قدرها نصف ثانية (0.5) أو أكثر في البلوكتشين. 
 
-Using the EOS.IO software, blocks are produced in rounds of 126 (6 blocks each, times 21 producers). At the start of each round 21 unique block producers are chosen by preference of votes cast by token holders. The selected producers are scheduled in an order agreed upon by 15 or more producers.
+باستخدام برنامج EOS.IO؛ يجري إنتاج الكتل في جولات من 126 كتلة (6 كتل لكل منتج مضروبة في عدد 21 منتجًا). في بداية كل جولة؛ يختار أصحاب الرموز عبر التصويت 21 من منتجي الكتل المختلفين. يُجدوَّل المنتجون المختارون بترتيب متفق عليه من قبل 15 منتجًا أو أكثر. 
 
-If a producer misses a block and has not produced any block within the last 24 hours they are removed from consideration until they notify the blockchain of their intention to start producing blocks again. This ensures the network operates smoothly by minimizing the number of blocks missed by not scheduling producers who are proven to be unreliable.
+إذا لم يلحق المُنتج بالكتلة ولم ينتج أي كتلة خلال ال 24 ساعة الماضية؛ لا يؤخذ هذا المنتج بالاعتبار إلى أن يُخطر البلوكتشين برغبته ببدء إنتاج الكتل مرة أخرى. وهذا من شانه ضمانة تشغيل الشبكة بسلاسة عن طريق تقليل عدد الكتل الفائتة؛ وذلك بعدم جدولة المنتجين الذين ثبت أنهم غير موثوق بهم.  
 
-Under normal conditions a DPOS blockchain does not experience any forks because, rather than compete, the block producers cooperate to produce blocks. In the event there is a fork, consensus will automatically switch to the longest chain. This method works because the rate at which blocks are added to a blockchain fork is directly correlated to the percentage of block producers that share the same consensus. In other words, a blockchain fork with more producers on it will grow in length faster than one with fewer producers, because the fork with more producers will experience fewer missed blocks. 
+في ظل الظروف العادية، لا يتعرض البلوكتشين من نوع إثبات الحصة بالتفويض "DPOS" لأي انقسام "fork"، لأن منتجي الكتل يتعاونون على إنتاج الكتل بدلًا من التنافس. في حالة وجود انقسام، سيتحول الإجماع تلقائيًا إلى أطول سلسلة. تعمل هذه الطريقة لأن المعدل الذي تُضاف به الكتل إلى انقسام البلوكتشين "fork" يرتبط ارتباطًا مباشرًا بالنسبة المئوية لمنتجي الكتل المشاركين بنفس الإجماع. وبعبارة أخرى، فإن انقسام البلوكتشين الذي به المزيد من المنتجين سينمو في الطول نموًا أسرع من بلوكتشين آخر به عدد أقل من المنتجين، لأن التشعيب الذي به المزيد من المنتجين سيشهد عددًا أقل من الكتل المفقودة. 
 
-Furthermore, no block producer should be producing blocks on two forks at the same time. A block producer caught doing this will likely be voted out. Cryptographic evidence of such double-production may also be used to automatically remove abusers.
+علاوة على ذلك، لا ينبغي لمنتج الكتل الإنتاج عبر طرفي تشعب الانقسام في نفس الوقت. من المرجح التصويت باستبعاد المنتج الذي يُضبط بهذا الفعل. يمكن أيضًا استخدام دليل تشفير لمثل هذا الإنتاج المزدوج لإزالة المعتدين تلقائيًا.  
 
-Byzantine Fault Tolerance is added to traditional DPOS by allowing all producers to sign all blocks so long as no producer signs two blocks with the same timestamp or the same block height. Once 15 producers have signed a block the block is deemed irreversible. Any byzantine producer would have to generate cryptographic evidence of their treason by signing two blocks with the same timestamp or blockheight. Under this model a irreversible consensus should be reachable within 1 second.
+تُضاف سماحية الخطأ البيزنطية (BFT) إلى نظام إثبات الحصة بالتفويض "DPOS" التقليدي من خلال السماح لجميع المنتجين بالتوقيع على جميع الكتل طالما لم يوقع أي منتج على كتلتين بنفس الطابع الزمني أو بنفس ارتفاع الكتلة. وبمجرد توقيع 15 منتجًا على الكتلة تُعتبر هذه الكتلة في حالة اللارجعة. يتعيّن على أي منتج بيزنطي أن يولّد دليلا مشفرًا على خداعه بتوقيع كتلتين بنفس الطابع الزمني أو ارتفاع الكتلة. في إطار هذا النموذج، يجب الوصول إلى إجماع اللارجعة  خلال ثانية واحدة.  
 
-## Transaction Confirmation
+## تأكيد المعاملة
 
-Typical DPOS blockchains have 100% block producer participation. A transaction can be considered confirmed with 99.9% certainty after an average of 0.25 seconds from time of broadcast.
+يحتوي البلوكتشين النموذجي من نوع إثبات الحصة بالتفويض "DPOS" على مشاركة بنسبة 100٪ من منتجي الكتل. يمكن اعتبار المعاملة مؤكدة بنسبة 99.9٪ بعد متوسط 0.25 ثانية من وقت البث. 
 
-In addition to DPOS, EOS.IO adds asynchronous Byzantine Fault Tolerance (aBFT) for faster achievement of irreversibility. The aBFT algorithm provides 100% confirmation of irreversibility within 1 second.
+بالإضافة إلى إثبات الحصة بالتفويض "DPOS"، يضيف EOS.IO سماحية خطأ بيزنطية لا متزامنة (aBFT) لسرعة تحقيق حالة اللارجعة. توفر خوارزمية سماحية الخطأ البيزنطية اللامتزامنة "aBFT" تأكيدًا نسبته 100٪ على حالة اللارجعة في غضون ثانية واحدة. 
 
-## Transaction as Proof of Stake (TaPoS)
+## إثبات الحصة بالمعاملة (TaPoS)
 
-The EOS.IO software requires every transaction to include part of the hash of a recent block header. This hash serves two purposes:
+يتطلب برنامج EOS.IO أن تتضمن كل معاملة جزءً من الهاش "hash" الخاصة برأس كتلة حديثة. تخدم هذه الهاش غرضين اثنين وهما:  
 
-1. prevents a replay of a transaction on forks that do not include the referenced block; and
-2. signals the network that a particular user and their stake are on a specific fork.
+1. منع إعادة تشغيل المعاملة على الإنقسامات التي لا تتضمن الكتلة المشار إليها؛ وتنبيه الشبكة أن مستخدمًا معينًا وحصته موجودان على تشعّب محدد للإنقسام.; و
+2. بمرور الوقت ينتهي الأمر بجميع المستخدمين بتأكيدهم المباشرة للبلوكتشين؛ مما يجعل من الصعب تشكيل سلاسل مزيفة لأن التزييف لن يكون قادراً على ترحيل المعاملات من السلسلة الشرعية.
 
-Over time all users end up directly confirming the blockchain which makes it difficult to forge counterfeit chains as the counterfeit would not be able to migrate transactions from the legitimate chain.
+وبمرور الوقت ينتهي الأمر بجميع المستخدمين بتأكيدهم المباشرة للبلوكتشين؛ مما يجعل من الصعب تشكيل سلاسل مزيفة لأن التزييف لن يكون قادراً على ترحيل المعاملات من السلسلة الشرعية. 
 
-# Accounts
+# الحسابات 
 
-The EOS.IO software permits all accounts to be referenced by a unique human readable name of up to 12 characters in length. The name is chosen by the creator of the account. The account creator must reserve the RAM required to store the new account until the new account stakes tokens to reserve its own RAM.
+يسمح برنامج EOS.IO بالإشارة إلى جميع الحسابات من خلال اسم فريد قابل للقراءة من قبل الإنسان يصل إلى 12 حرفًا. يختار منشئ الحساب هذا الاسم. يجب أن يحتفظ منشئ الحساب بالذاكرة المطلوبة  (RAM) لتخزين الحساب الجديد إلى أن يجمع الحساب الجديد الرموز "Tokens" لحفظ ذاكرته الخاصة به عليها. 
 
-In a decentralized context, application developers will pay the nominal cost of account creation to sign up a new user. Traditional businesses already spend significant sums of money per customer they acquire in the form of advertising, free services, etc. The cost of funding a new blockchain account should be insignificant in comparison. Fortunately, there is no need to create accounts for users already signed up by another application.
+في سياق لامركزي، يدفع مطورو التطبيقات التكلفة الاسمية لإنشاء الحساب لتسجيل مستخدم جديد. تنفق الشركات التقليدية بالفعل مبالغًا كبيرة من المال لكل عميل تحصل عليه؛ وذلك على هيئة إعلانات وخدمات مجانية وما إلى ذلك. وبالتالي فإن تكلفة تمويل حساب بلوكتشين جديد غير ذات أهمية بالمقارنة. لحسن الحظ، ليست هناك حاجة لإنشاء حسابات جديدة للمستخدمين الذين اشتركوا بالفعل عبر تطبيق آخر. 
 
-## Actions & Handlers
+## الإجراءات والمناولة 
 
-Each account can send structured Actions to other accounts and may define scripts to handle Actions when they are received. The EOS.IO software gives each account its own private database which can only be accessed by its own action handlers. Action handling scripts can also send Actions to other accounts. The combination of Actions and automated action handlers is how EOS.IO defines smart contracts.
+يمكن لكل حساب إرسال إجراءات منظمة إلى حسابات أخرى، ويمكنه تعريف البرامج النصية للتعامل مع الإجراءات وقت استلامها. يمنح برنامج EOS.IO كل حساب قاعدة بيانات خاصة به والتي لا يمكن الوصول إليها إلا من خلال مناولات الإجراءات الخاصة به. يمكن أيضًا للنصوص البرمجية المتعاملة مع الإجراءات إرسال إجراءات إلى حسابات أخرى. يستخدم EOS.IO الجمع بين الإجراءات ومُناوِلات الإجراءات التلقائية "automated action handlers" كوسيلة لتعريف العقود الذكية.  
 
-To support parallel execution, each account can also define any number of scopes within their database. The block producers will schedule transaction in such a way that there is no conflict over memory access to scopes and therefore they can be executed in parallel.
+لدعم التنفيذ المتوازي، يمكن لكل حساب أيضًا تحديد أي عدد من النطاقات داخل قاعدة بياناته. سيجدّول منتجو الكتل المعاملات بطريقة لا تسبب تضاربًا بخصوص وصول الذاكرة إلى النطاقات وبالتالي يمكن تنفيذ هذه المعاملات بالتوازي. 
 
-## Role Based Permission Management
+## إدارة الأذونات وفقًا للأدوار
 
-Permission management involves determining whether or not an Action is properly authorized. The simplest form of permission management is checking that a transaction has the required signatures, but this implies that required signatures are already known. Generally, authority is bound to individuals or groups of individuals and is often compartmentalized. The EOS.IO software provides a declarative permission management system that gives accounts fine grained and high-level control over who can do what and when.
+تتضمن إدارة الأذونات تحديد ما إذا كان الإجراء مصرحًا به أم لا. إن أبسط شكل من أشكال إدارة الأذونات هو التحقق من أن المعاملة بها التوقيعات المطلوبة، ولكن هذا يعني ضمناً أن التوقيعات المطلوبة معروفة بالفعل. بشكل عام، فالصلاحية مقيدة بأفراد أو مجموعات من الأفراد وغالباً ما تكون مجزئة. يوفر برنامج EOS.IO نظام إدارة أذونات تقريري يوفر مراقبة دقيقة ومرتفعة للحسابات بخصوص من يمكنه فعل شيء ما ومتى يمكنه ذلك.  
 
-It is critical that authentication and permission management be standardized and separated from the business logic of the application. This enables tools to be developed to manage permissions in a general-purpose manner and also provide significant opportunities for performance optimization.
+من الأهمية بمكان أن تكون المصادقة وإدارة الأذونات موحدة ومفصولة عن منطق الأعمال الخاص بالتطبيق. يتيح ذلك تطوير أدوات لإدارة الأذونات تطويرًا عامًا وتوفير فرص كبيرة لتحقيق الأداء الأمثل.  
 
-Every account may be controlled by any weighted combination of other accounts and private keys. This creates a hierarchical authority structure that reflects how permissions are organized in reality and makes multi-user control over accounts easier than ever. Multi-user control is the single biggest contributor to security, and, when used properly, it can greatly reduce the risk of theft due to hacking.
+يمكن التحكم في كل حساب من خلال أي مجموعة ترجيح مكونة من الحسابات والمفاتيح الخاصة الأخرى. يؤدي هذا إلى إنشاء بنية هرمية للصلاحية تعكس كيفية تنظيم الأذونات في الواقع؛ مما يسهل التحكم من المستخدمين المتعددين مقارنة بأي وقت مضى. إن التحكم بواسطة مستخدمين متعددين هو أكبر العوامل المساهمة في تحقيق الأمن، وعند استخدامه استخدامًا صحيحًا فإن بإمكانه الحد بصورة كبيرة من خطر السرقة بسبب القرصنة.  
 
-EOS.IO software allows accounts to define what combination of keys and/or accounts can send a particular Action type to another account. For example, it is possible to have one key for a user's social media account and another for access to the exchange. It is even possible to give other accounts permission to act on behalf of a user's account without assigning them keys.
+يسمح برنامج EOS.IO للحسابات بتحديد مجموعة المفاتيح والحسابات أو أيهما التي يمكنها إرسال نوع إجراء معين إلى حساب آخر. على سبيل المثال، من الممكن أن يكون لديك مفتاح واحد للحساب الخاص بالوسائط الاجتماعية وآخر للوصول إلى البورصة. من الممكن أيضًا منح حسابات أخرى الإذن بالتصرف نيابةً عن حساب المستخدم دون تعيين مفاتيح له.  
 
-### Named Permission Levels
+### مستويات الأذونات المُدرجة
 
 <img align="right" src="https://github.com/EOSIO/Documentation/blob/images/images/diagram3.png" width="228.395px" height="300px" />
 
-Using the EOS.IO software, accounts can define named permission levels each of which can be derived from higher level named permissions. Each named permission level defines an authority; an authority is a threshold multi-signature check consisting of keys and/or named permission levels of other accounts. For example, an account's "Friend" permission level can be set for an Action on the account to be controlled equally by any of the account's friends.
+باستخدام برامج EOS.IO؛ يمكن للحسابات تحديد مستويات الأذونات المعينة التي يمكن اشتقاق كل منها من أذونات معينة أخرى على مستوى أعلى. يحدد كل مستوى إذن مُعين صلاحية ما؛ هذه الصلاحية هي عتبة للتحقق من التوقيعات المتعددة وتتكون من مفاتيح ومستويات أذونات معينة للحسابات الأخرى أو أيهما. على سبيل المثال، يمكن تعيين مستوى إذن من نوع "صديق" لحساب ما؛ وذلك لإجراء متعلق بالحساب ليُتحكم فيه بالتساوي من قبل أي من أصدقاء الحساب. 
 
-Another example is the Steem blockchain which has three hard-coded named permission levels: owner, active, and posting. The posting permission can only perform social actions such as voting and posting, while the active permission can do everything except change the owner. The owner permission is meant for cold storage and is able to do everything. The EOS.IO software generalizes this concept by allowing each account holder to define their own hierarchy as well as the grouping of actions.
+بلوكتشين Steem مثال آخر؛ حيث بها ثلاثة مستويات معينة للأذونات هي: مالك ونشط وناشر(owner, active, and posting). لا يمكن لإذن النشر سوى تنفيذ الإجراءات الاجتماعية مثل التصويت والنشر، في حين أن الإذن النشط يمكن أن يفعل كل شيء باستثناء تغيير المالك. أما إذن المالك فمخصص للمخزن البارد وهو مٌخوّل بفعل كل شيء. يُعمم برنامج EOS.IO هذا المفهوم من خلال السماح لكل صاحب حساب بتحديد التسلسل الهرمي الخاص به؛ بالإضافة إلى تجميع الإجراءات. 
 
-### Permission Mapping
+### تخطيط الأذونات
 
-EOS.IO software allows each account to define a mapping between a contract/action or contract of any other account and their own Named Permission Level. For example, an account holder could map the account holder's social media application to the account holder's "Friend" permission group. With this mapping, any friend could post as the account holder on the account holder's social media. Even though they would post as the account holder, they would still use their own keys to sign the Action. This means it is always possible to identify which friends used the account and in what way.
+يسمح برنامج EOS.IO لكل حساب بتحديد التخطيط "mapping" بين العقد أو الإجراء أو عقد لأي حساب آخر وكذلك المستوى المعيين الخاص به. على سبيل المثال، يمكن لصاحب الحساب تخطيط وربط تطبيق وسائل التواصل الاجتماعي لمالك الحساب مع مجموعة أذونات "صديق" الخاصة بمالك الحساب. باستخدام هذا التخطيط؛ يمكن لأي صديق أن ينشر تحت اسم صاحب الحساب على الوسائط الاجتماعية الخاصة به. على الرغم من أنهم قد ينشرون بصفتهم أصحاب الحساب، إلا أنهم سيظلون يستخدمون مفاتيحهم الخاصة للتوقيع على الإجراء. ويعني هذا أنه من الممكن دائمًا تحديد الأصدقاء الذين استخدموا الحساب كما يمكن تحديد طريقة هذا الاستخدام. 
 
-### Evaluating Permissions
+### تقييم الأذونات
 
-When delivering an Action of type "**Action**", from **@alice** to **@bob** the EOS.IO software will first check to see if **@alice** has defined a permission mapping for **@bob.groupa.subgroup.Action**. If nothing is found then a mapping for **@bob.groupa.subgroup** then **@bob.groupa**, and lastly **@bob** will be checked. If no further match is found, then the assumed mapping will be to the named permission group **@alice.active**.
+عند تسليم إجراء من نوع "**Action**", من **@alice** إلى **@bob** يتحقق برنامج EOS.IO أولاً لمعرفة ما إذا كانت **@alice** قد حددت تخطيطًا للأذونات ل **@bob.groupa.subgroup.Action**. إذا لم يُعثر على أي شيء بخصوص **@bob.groupa.subgroup** فسيُتحقق من مسار **@bob.groupa**, وفي الاخير **@bob** إذا لم يُعثر على تطابق آخر، فسيكون التخطيط المفترض لمجموعة الإذن المعينة هو **@alice.active**.
 
-Once a mapping is identified then signing authority is validated using the threshold multi-signature process and the authority associated with the named permission. If that fails, then it traverses up to the parent permission and ultimately to the owner permission, **@alice.owner**.
+بمجرد تحديد التخطيط، يجري التحقق من صلاحية التوقيع باستخدام عملية عتبة التوقيع المتعدد والصلاحية المرتبطة بالإذن المعيين. إذا فشل ذلك، فإنه ينتقل إلى الإذن الأب وفي النهاية إلى إذن المالك . **@alice.owner**.
 
 <img align="center" src="https://github.com/EOSIO/Documentation/blob/images/images/diagram2grayscale2.jpg" width="845.85px" height="500px" />
 
-#### Default Permission Groups
+#### مجموعات الأذونات الافتراضية
 
-The EOS.IO technology also allows all accounts to have an "owner" group which can do everything, and an "active" group which can do everything except change the owner group. All other permission groups are derived from "active".
+كما تتيح تقنية EOS.IO لجميع الحسابات أن يكون لديها مجموعة "مالك" يمكنها القيام بكل شيء، ومجموعة "نشط" يمكنها القيام بكل شيء ما عدا تغيير مجموعة المالك. تُشتق كل مجموعات الأذونات الأخرى من المجموعة "نشط". 
 
-#### Parallel Evaluation of Permissions
+#### التقييم الموازي للأذونات
 
-The permission evaluation process is "read-only" and changes to permissions made by transactions do not take effect until the end of a block. This means that all keys and permission evaluation for all transactions can be executed in parallel. Furthermore, this means that a rapid validation of permission is possible without starting costly application logic that would have to be rolled back. Lastly, it means that transaction permissions can be evaluated as pending transactions are received and do not need to be re-evaluated as they are applied.
+عملية تقييم الأذونات هي "للقراءة فقط" ولا تسري التغييرات المجراة على الأذونات بواسطة المعاملات إلا في نهاية الكتلة. وهذا يعني أنه يمكن تنفيذ جميع التقييمات للمفاتيح والأذونات لجميع المعاملات بالتوازي. وعلاوة على ذلك، فإن هذا يعني إمكانية التحقق السريع من الإذن دون البدء باستعادة مكلفة لمنطق التطبيق. وأخيرًا، فهذا يعني أنه يمكن تقييم أذونات المعاملات وقت استلام المعاملات المعلقة؛ ولا يلزم إعادة تقييمها عند تطبيقها. 
 
-All things considered, permission verification represents a significant percentage of the computation required to validate transactions. Making this a read-only and trivially parallelizable process enables a dramatic increase in performance.
+وبأخذ جميع الأمور في الاعتبار؛ يمثل التحقق من الإذن نسبة مئوية كبيرة من الحوسبة المطلوبة للتحقق من صحة المعاملات. تتحقق  زيادة هائلة في الأداء عبر جعل هذه العملية "قراءة فقط" وإمكان إجراؤها  توازيًا بسهولة. 
 
-When replaying the blockchain to regenerate the deterministic state from the log of Actions there is no need to evaluate the permissions again. The fact that a transaction is included in a known good block is sufficient to skip this step. This dramatically reduces the computational load associated with replaying an ever growing blockchain.
+عند إعادة تشغيل البلوكتشين لتجديد الحالة الحتمية من سجل الإجراءات؛ فلا توجد حاجة لتقييم الأذونات مرة أخرى. فحقيقة أن المعاملة تقع ضمن كتلة جيدة ومعروفة تجعله كافيًا لتخطي هذه الخطوة. وهذا يقلل بدوره من الحمل الحوسبي المرتبط بإعادة استخدام البلوكتشين متزايد الحجم. 
 
-## Actions with Mandatory Delay
+## الإجراءات ذات التأخير الإلزامي
 
-Time is a critical component of security. In most cases, it is not possible to know if a private key has been stolen until it has been used. Time based security is even more critical when people have applications that require keys be kept on computers connected to the internet for daily use. The EOS.IO software enables application developers to indicate that certain Actions must wait a minimum period of time after being included in a block before they can be applied. During this time, they can be cancelled.
+الوقت عنصر حاسم لضمان الأمان. في معظم الحالات؛ لا يمكن معرفة ما إذا كان المفتاح الخاص قد سُرق إلى أن يستخدم. يُعد الأمان المستند إلى الوقت أكثر أهمية عندما يكون لدى الأشخاص تطبيقات تتطلب مفاتيح محتفظ بها على الحواسيب المتصلة بالإنترنت للاستخدام اليومي. يُمكّن برنامج EOS.IO مطوري التطبيقات من الإشارة إلى أن إجراءات معينة يجب أن تنتظر فترة زمنية قصيرة بعد تضمينها في كتلة قبل تطبيقها. خلال هذا الوقت، يمكن إلغاؤها. 
 
-Users can then receive notice via email or text message when one of these Actions is broadcast. If they did not authorize it, then they can use the account recovery process to recover their account and retract the Action.
+يمكن للمستخدمين بعد ذلك تلقي إشعار عبر البريد الإلكتروني أو رسالة نصية عند بث أحد هذه الإجراءات. إذا لم يعطوا تصريحًا بذلك، فيمكنهم استخدام عملية استرداد الحساب لاسترداد حساباتهم وسحب الإجراء.  
 
-The required delay depends upon how sensitive an operation is. Paying for a coffee might have no delay and be irreversible in seconds, while buying a house may require a 72 hour clearing period. Transferring an entire account to new control may take up to 30 days. The exact delays are chosen by application developers and users.
+يعتمد التأخير المطلوب على مدى حساسية العملية. قد يكون دفع مقابل كوب من القهوة بلا تأخير ولا يمكن التراجع عنه خلال ثوانٍ، بينما قد يتطلب شراء منزل فترة 72 ساعة للإنفاذ. قد يستغرق نقل حساب بالكامل إلى عنصر تحكم جديد ما يصل إلى 30 يومًا. تُختار مدد التأخير المحددة بواسطة مطوري التطبيقات والمستخدمين. 
 
-## Recovery from Stolen Keys
+## الاسترجاع للمفاتيح المسروقة
 
-The EOS.IO software provides users a way to restore control of their account when keys are stolen. An account owner can use any owner key that was active in the last 30 days along with approval from their designated account recovery partner to reset the owner key on their account. The account recovery partner cannot reset control of the account without the help of the owner.
+يُوفر برنامج EOS.IO للمستخدمين طريقة لاستعادة السيطرة على حساباتهم عند سرقة المفاتيح. يمكن لمالك الحساب استخدام أي مفتاحِ للمالك شريطة أن يكون نشطًا خلال آخر 30 يومًا؛ إلى جانب الموافقة من الشريك المُعيين لاسترداد الحساب على إعادة تعيين مفتاح حساب المالك. لا يمكن لشريك استرداد الحساب إعادة ضبط التحكم في الحساب بدون مساعدة المالك.   
 
-There is nothing for the hacker to gain by attempting to go through the recovery process because they already "control" the account. Furthermore, if they did go through the process, the recovery partner would likely demand identification and multi-factor authentication (phone and email). This would likely compromise the hacker or gain the hacker nothing in the process.
+ليس هناك ما يمكن أن يكتسبه القرصان من خلال محاولة اجتياز عملية الاسترداد نظرًا لأنهم "يتحكمون" بالفعل في الحساب. علاوة على ذلك؛ إذا ما بدأت العملية فمن المنتظر أن يطلب شريك الاسترداد تحديد الهوية والمصادقة متعددة العوامل (الهاتف والبريد الإلكتروني). من المنتظر أن يؤدي هذا إلى إفشال عملية الاختراق أو عدم حصول القرصان على شيء يُذكر في هذه العملية.  
 
-This process is also very different from a simple multi-signature arrangement. With a multi-signature transaction, another entity is made a party to every transaction that is executed. By contrast, with the recovery process the recovery partner is only a party to the recovery process and has no power over the day-to-day transactions. This dramatically reduces costs and legal liabilities for everyone involved.
+تختلف هذه العملية أيضًا اختلافًا كبيرًا عن الاتفاقات البسيطة متعددة التوقيعات. مع وجود معاملة متعددة التوقيعات؛ يُنشأ كيان آخر بوصفه طرفًا في كل معاملة تُنفذ. على النقيض من ذلك، يكون شريك الاسترداد طرفًا في عملية الاسترداد فقط وليس لديه القدرة على إجراء المعاملات اليومية. يقلل هذا التكاليف والالتزامات القانونية لجميع المعنيين إقلالًا ملحوظًا. 
 
 
-# Deterministic Parallel Execution of Applications
+# التنفيذ الحتمي المتوازي للتطبيقات تقليل تأخر الاتصالات
 
-Blockchain consensus depends upon deterministic (reproducible) behavior. This means all parallel execution must be free from the use of mutexes or other locking primitives. Without locks there must be some way to guarantee that transactions that may be executed in parallel do not create non-deterministic results.
+يعتمد إجماع البلوكتشين على السلوك الحتمي (القابلية للاستنساخ). وهذا يعني أن التنفيذ المتوازي بأكمله يجب أن يكون خاليًا من استخدام كائنات المزامنة "Mutexes" أو الأقفال الأولية الأخرى. بدون الأقفال يجب إيجاد طريقة أخرى لضمان أن المعاملات التي تنفذ على التوازي لا تؤدي إلى نتائج غير حتمية.  
 
-The June 2018 release of EOS.IO software will run single threaded, yet it contains the data structures necessary for future multithreaded, parallel execution.
+ 
 
-In an EOS.IO software-based blockchain, once parallel operation is enabled, it will be the job of the block producer to organize Action delivery into independent shards so that they can be evaluated in parallel. The schedule is the output of a block producer and will be deterministically executed, but the process for generating the schedule need not be deterministic. This means that block producers can utilize parallel algorithms to schedule transactions.
+سيعمل إصدار EOS.IO يونيو 2018 على أساس أحادي الخيط؛ ولكنه يحتوي على بنية البيانات الضرورية من أجل التنفيذ المتوازي متعدد الخيوط في المستقبل.  
 
-Part of parallel execution means that when a script generates a new Action it does not get delivered immediately, instead it is scheduled to be delivered in the next cycle. The reason it cannot be delivered immediately is because the receiver may be actively modifying its own state in another shard.
+بمجرد تمكين التشغيل المتوازي في البلوكتشين القائم على برمجيات EOS.IO؛ سيكون من مهمة منتجي الكتل تنظيم تسليم الإجراءات في صورة قطع مستقلة بحيث يمكن تقييمها بالتوازي. الجدول عبارة عن مُخرَج لمنتج الكتلة وسيُنفذ تنفيذَا حتميًا، ولكن لا تحتاج عملية إنشاء الجدول إلى أن تكون حتمية. ويعني هذا أن منتجي الكتل يمكنهم استخدام الخوارزميات المتوازية لجدولة المعاملات. 
+
+جزء مما يعنيه التنفيذ المتوازي أنه عند إنشاء البرنامج النصي لإجراء جديد؛ فإنه لا يٌسلّم على الفور. بل من المقرر تسليمه في الدورة التالية. والسبب في عدم إمكانية التسليم الفوري هو أن المتلقي قد يُعدّل حالته تعديلًا نشطًا في جزء آخر. 
 
 
 ## Minimizing Communication Latency

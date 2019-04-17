@@ -399,71 +399,71 @@
 
 EOS.IO ستكون المنصة الأولى والسبّاقة لتنسيق تسليم الرسائل الموثوقة (تُسمى الإجراءات) إلى الحسابات. إن تفاصيل لغة البرمجة النصية والجهاز الافتراضي عبارة عن تفاصيل خاصة بالتنفيذ وغالبًا ما تكون مستقلة عن تصميم تقنية EOS.IO. يمكن دمج أي لغة أو VM مع الـAPI الخاص بـEOS.IO.
 
-## Schema Defined Actions
+## الإجراءات المُحددة بواسطة المخطط
 
-All Actions sent between accounts are defined by a schema which is part of the blockchain consensus state. This schema allows seamless conversion between binary and JSON representation of the Actions.
+تُحدد جميع الإجراءات المرسلة بين الحسابات من خلال مخطط يمثل جزءً من حالة الإجماع الخاصة بالبلوكتشين. يتيح هذا المخطط التحويل السلس بين التمثيل الثنائي "Binary" والتمثيل بلغة الجافا "JSON" للإجراءات.
 
-## Schema Defined Database
+## قاعدة البيانات المُحددة بواسطة المخطط
 
-Database state is also defined using a similar schema. This ensures that all data stored by all applications is in a format that can be interpreted as human readable JSON but stored and manipulated with the efficiency of binary.
+كما تُحدد حالة قاعدة البيانات أيضًا باستخدام مخطط مشابه. يضمن ذلك أن تكون جميع البيانات المخزنة من قبل جميع التطبيقات في صيغة يمكن تفسيرها على أنها لغة جافا مقروءة للبشر "JSON" ولكنها تُخزّن ويتُحكم بها عبر كفاءة اللغة الثنائية "inaryB".  
 
-## Generic Multi Index Database API
+## قاعدة بيانات عامة متعددة الفهرسة  API
 
-Developing smart contracts requires a defined database schema to track, store, and find data. Developers commonly need the same data sorted or indexed by multiple fields and to maintain consistency among all the indices.
+يتطلب تطوير العقود الذكية قاعدة بيانات مُحددة بواسطة المخطط؛ وذلك بهدف تتبع البيانات وتخزينها والبحث عنها. عادة ما يحتاج المطورون إلى نفس البيانات التي نُظِمت أو  فُهرست من خلال حقول متعددة؛ بالإضافة إلى المحافظة على التناسق بين جميع الفهارس.
 
-## Separating Authentication from Application
+## فصل المصادقة عن التطبيق
 
-To maximize parallelization opportunities and minimize the computational debt associated with regenerating application state from the transaction log, EOS.IO software separates validation logic into three sections:
+لتعظيم فرص الموازاة وتقليل الدين الحوسبي "computational debt" المصاحب لتجديد حالة التطبيق من سجل المعاملات؛ يُقسّم برنامج EOS.IO منطق التحقق من الصحة إلى ثلاثة أقسام:
 
-1. Validating that an Action is internally consistent;
-2. Validating that all preconditions are valid; and
-3. Modifying the application state.
+1. التحقق من اتساق الإجراء داخليًا;
+2. التحقق من صحة جميع الشروط المسبقة ; و
+3. التحقق من صحة جميع الشروط المسبقة
 
-Validating the internal consistency of a Action is read-only and requires no access to blockchain state. This means that it can be performed with maximum parallelism. Validating preconditions, such as required balance, is read-only and therefore can also benefit from parallelism. Only modification of application state requires write access and must be processed sequentially for each application.
+التحقق من التناسق الداخلي "للإجراء"  يتم عبر القراءة فقط ولا يتطلب الوصول إلى حالة البلوكتشين. وهذا يعني أنه إمكانية إجراؤه بأقصى قدر من التوازي. التحقق من الشروط المسبقة، مثل الرصيد المطلوب، وكونه للقراءة فقط وبالتالي يمكن أيضا الاستفادة من التوازي. يتطلب تعديل حالة التطبيق فقط إمكانية الكتابة ويجب معالجته بالتسلسل لكل تطبيق.  
 
-Authentication is the read-only process of verifying that an Action can be applied. Application is actually doing the work. In real time both calculations are required to be performed, however once a transaction is included in the blockchain it is no longer necessary to perform the authentication operations.
+المصادقة عملية قراءة فقط؛ شأنها التحقق من إمكانية تطبيق الإجراء. التطبيق في الواقع القيام بالعمل نفسه. يلزم إجراء كلا الحسابين آنيًا، ولكن بمجرد أن تضمين المعاملة في البلوكتشين لن يكون من الضروري إجراء عمليات المصادقة.
 
-# Inter Blockchain Communication
+# الاتصالات عبر البلوكتشين
 
-EOS.IO software is designed to facilitate inter-blockchain communication. This is achieved by making it easy to generate proof of Action existence and proof of Action sequence. These proofs combined with an application architecture designed around Action passing enables the details of inter-blockchain communication and proof validation to be hidden from application developers, enabling high level abstractions to be presented to developers.
+صُمم برنامج EOS.IO لتسهيل الاتصال بين شبكات البلوكتشين. يتحقق ذلك من خلال تسهيل إنشاء دليل على وجود الإجراء ودليل تسلسل الإجراء. هذه الأدلة جنبًا إلى جنب مع بنية التطبيق المصممة حول تمرير الإجراءات؛ تُمكن من إخفاء تفاصيل الاتصال بين البلوكتشين وإثبات صحة الدليل عن مطوري التطبيقات، مما يتيح تقديم مستويات أعلى من التجريد للمطورين.
 
 <img align="right" src="https://github.com/EOSIO/Documentation/blob/images/images/Diagram1.jpg" width="362.84px" height="500px" />
 
-## Merkle Proofs for Light Client Validation (LCV)
+## أدلة ميركل للتحقق الخفيف من العميل (LCV)
 
-Integrating with other blockchains is much easier if clients do not need to process all transactions. After all, an exchange only cares about transfers in and out of the exchange and nothing more. It would also be ideal if the exchange chain could utilize lightweight merkle proofs of deposit rather than having to trust its own block producers entirely. At the very least a chain's block producers would like to maintain the smallest possible overhead when synchronizing with another blockchain.
+التكامل مع أنواع البلوكتشين الأخرى أسهل بكثير إذا لم يكن العملاء بحاجة إلى معالجة جميع المعاملات. في النهاية لا تهتم منصات التداول إلا بالحوالات داخلها وخارجها وليس أكثر من ذلك. وسيكون من المثالي أيضًا أن تستخدم سلسلة التبادل أدلة ميركل الخفيفة للإيداع بدلاً من الاضطرار إلى الوثوق تمامًا بمنتجيها للكتل. على أقل تقدير، يرغب منتجو الكتل بالسلسلة في الحفاظ على أصغر مقدار ممكن من الأحمال عند المزامنة مع بلوكتشين آخر.  
 
-The goal of LCV is to enable the generation of relatively light-weight proof of existence that can be validated by anyone tracking a relatively light-weight data set. In this case the objective is to prove that a particular transaction was included in a particular block and that the block is included in the verified history of a particular blockchain.
+الهدف من أدلة ميركل للتحقق الخفيف من العميل "LCV" هو تمكين إنتاج دليل خفيف الوزن نسبياً يمكن التحقق منه بواسطة أي شخص يتتبع مجموعة بيانات خفيفة الوزن نسبياً. في هذه الحالة، الهدف هو إثبات أن معاملة معينة مُضمّنة بالفعل في كتلة وأن هذه الكتلة مُضمّنة في التاريخ المتحقق منه من بلوكتشين معين. 
 
-Bitcoin supports validation of transactions assuming all nodes have access to the full history of block headers which amounts to 4MB of block headers per year. At 10 transactions per second, a valid proof requires about 512 bytes. This works well for a blockchain with a 10 minute block interval, but is no longer "light" for blockchains with a 0.5 second block interval.
+يدعم البيتكوين التحقق من صحة المعاملات؛ وذلك بافتراض أن جميع العُقد يمكنها الوصول إلى السجل الكامل لرؤوس الكتل التي تبلغ 4 ميجابايت من رؤوس الكتل في السنة. عند معدل 10 معاملات في الثانية، يتطلب الإثبات الصالح حوالي 512 بايت. يعمل هذا جيدًا مع البلوكتشين الذي به فاصل للكتلة يبلغ 10 دقائق، ولكن لم يعد "خفيفًا" للبلوكتشين الذي به فاصل كتلة يبلغ 0.5 ثانية. 
 
-The EOS.IO software enables lightweight proofs for anyone who has any irreversible block header after the point in which the transaction was included. Using the hash-linked structure shown it is possible to prove the existence of any transaction with a proof less than 1024 bytes in size.
+يُمكّن برنامج EOS.IO الأدلة خفيفة الوزن لأي شخص لديه رأس كتلة لا رجعة فيها بعد النقطة التي تم تضمين المعاملة فيها. باستخدام الهيكل المرتبط بالهاش "Hash"، يمكن إثبات وجود أي معاملة باستخدام دليل حجمه أقل من 1024 بايت.  
 
-Given any block id for a block in the blockchain, and the headers a trusted irreversible block. It is possible to prove that the block is included in the blockchain. This proof takes ceil(log2(N)) digests for its path, where N is the number of blocks in the chain. Given a digest method of SHA256, you can prove the existence of any block in a chain which contains 100 million blocks in 864 bytes.
+شريطة أن يكون مُعرّف الكتلة لأي كتلة في البلوكتشين وكذلك رؤوس الكتلة موثوق بها ولا رجعة فيها. من الممكن إثبات أن الكتلة موجودة في البلوكتشين. هذا الدليل يستعمل خلاصات الدالة:ceil(log2(N) لمساره، حيث "N" هو عدد الكتل في السلسلة. وبمعرفة طريقة هضم "SHA256"؛ يمكنك إثبات وجود أي كتلة في سلسلة تحتوي على 100 مليون كتلة في 864 بايت.  
 
-There is little incremental overhead associated with producing blocks with the proper hash-linking to enable these proofs which means there is no reason not to generate blocks this way.
+هناك زيادة طفيفة في الحِمل المرتبط بإنتاج الكتل ذات الربط الصحيح بالهاش "hash linking" لتمكين هذه الأدلة؛ مما يعني أنه لا يوجد سبب لعدم إنتاج الكتل بهذه الطريقة.  
 
-When it comes time to validate proofs on other chains there are a wide variety of time/ space/ bandwidth optimizations that can be made. Tracking all block headers (420 MB/year) will keep proof sizes small. Tracking only recent headers can offer a trade off between minimal long-term storage and proof size. Alternatively, a blockchain can use a lazy evaluation approach where it remembers intermediate hashes of past proofs. New proofs only have to include links to the known sparse tree. The exact approach used will necessarily depend upon the percentage of foreign blocks that include transactions referenced by merkle proof.
+عندما يحين وقت التحقق من صحة الأدلة على السلاسل الأخرى؛ فهناك مجموعة واسعة من التحسينات التي يمكن إجراؤها على الوقت والمساحة وعرض النطاق. سيحافظ تتبع جميع رؤوس الكتل (420 ميجابايت/السنة) على صغر حجم الأدلة. يمكن أن يوفر تتبع الرؤوس الحديثة فقط موازنة بين الحد الأدنى من التخزين طويل الأجل وحجم الدليل. بدلًا من ذلك، يمكن للبلوكتشين استخدام نهج تقييمٍ متراخٍ حيث يتذكر الهاش "hash" المتوسطة من الأدلة السابقة. يتعين على الأدلة الجديدة فقط أن تتضمن روابطًا لشجرة التفرق المعروفة "ٍsparse tree". يعتمد النهج الدقيق المستخدم بالضرورة على النسبة المئوية للكتل الأجنبية التي تتضمن معاملات مشار إليها بواسطة ادلة ميركل. 
 
-After a certain density of interconnectedness, it becomes more efficient to simply have one chain contain the entire block history of another chain and eliminate the need for proofs all together. For performance reasons, it is ideal to minimize the frequency of inter-chain proofs.
+بعد كثافة معينة من الترابط يصبح من الأكثر كفاءة أن تحتوي سلسلة واحدة فقط على تاريخ الكتلة بأكمله لسلسلة أخرى؛ وإزالة الحاجة إلى الأدلة بالكامل. لأسباب تتعلق بالأداء، فمن المثالي تقليل تكرارية الأدلة بين السلاسل "inter-chain proofs". 
 
 
-## Latency of Interchain Communication
+## تأخر الاتصالات عبر البلوكتشين
 
-When communicating with another outside blockchain, block producers must wait until there is 100% certainty that a transaction has been irreversibly confirmed by the other blockchain before accepting it as a valid input. Using an EOS.IO software-based blockchain and DPOS with 0.5 second blocks and the addition of Byzantine Fault Tolerant irreversibility, this takes approximately 0.5 second. If any chain's block producers do not wait for irreversibility it would be like an exchange crediting a deposit that was later reversed and could impact the validity of the blockchain's consensus. The EOS.IO Software uses both DPOS and aBFT to provide rapid irreversibility.
+عند التواصل مع بلوكتشين خارجي آخر، يجب على منتجي الكتل الانتظار حتى يجري التأكد بنسبة 100 ٪ من أن المعاملة تأكدت تأكيدًا لا رجعة فيه من قبل البلوكتشين الآخر؛ وذلك قبل قبوله بوصفه مُدخلًا صالحًا. باستخدام بلوكتشين معتمد على برنامج EOS.IO وإثبات الحصة بالتفويض "DPOS" مع كتل 0.5 ثانية وإضافة إلى اللارجعة وفق سماحية الخطأ البيزنطية، يستغرق هذا حوالي 0.5 ثانية. إذا لم ينتظر منتجو الكتل لأي سلسلة حالة اللارجعة، فسيكون الأمر مثل التبادل الذي يعيد إيداعًا عُكس لاحقًا؛ ويمكن أن يؤثر هذا على صحة الإجماع الخاص بالبلوكتشين. يستخدم برنامج EOS.IO كلاً من إثبات الحصة بالتفويض "DPOS" وسماحية خطأ بيزنطية لا متزامنة "aBFT" لتوفير اللارجعة سريعًا.
 
-## Proof of Completeness
+## دليل الاكتمال
 
-When using merkle proofs from outside blockchains, there is a significant difference between knowing that all transactions processed are valid and knowing that no transactions have been skipped or omitted. While it is impossible to prove that all of the most recent transactions are known, it is possible to prove that there have been no gaps in the transaction history. The EOS.IO software facilitates this by assigning a sequence number to every Action delivered to every account. A user can use these sequence numbers to prove that all Actions intended for a particular account have been processed and that they were processed in order.
+عند استخدام أدلة ميركل من شبكات البلوكتشين الخارجية الأخرى، هناك اختلاف كبير بين معرفة أن جميع المعاملات التي تمت معالجتها صحيحة ومعرفة أنه لم يجري تخطي أو حذف أي معاملة. في حين أنه من المستحيل إثبات أن جميع المعاملات الأخيرة معروفة، فمن الممكن إثبات عدم وجود ثغرات في تاريخ المعاملة. يُسهّل برنامج EOS.IO ذلك من خلال تعيين رقم تسلسلي لكل إجراء سُلِّم لكل حساب. يمكن للمستخدم استخدام أرقام التسلسل هذه لإثبات أن جميع الإجراءات المخصصة لحساب معين قد جرى معالجتها وأن ذلك قد تم بالترتيب.
 
-## Segregated Witness
+## الشاهد المنفصل
 
-The concept of Segregated Witness (SegWit) is that transaction signatures are not relevant after a transaction is immutably included in the blockchain. Once it is immutable the signature data can be pruned and everyone else can still derive the current state. Since signatures represent a large percentage of most transactions, SegWit represents a significant savings in disk usage and syncing time.
+إن مفهوم الشاهد المنفصل (SegWit) يعني أن توقيعات المعاملة تصبح غير ذات صلة بعد أن تم تضمين المعاملة في البلوكتشين تضمينًا لا يمكن تغييره. وبمجرد أن تصبح غير قابلة للتغيير؛ يمكن استقطاع بيانات التوقيع ويستطيع أي شخص آخر اشتقاق الحالة الراهنة. وحيث تُمثل التوقيعات نسبة كبيرة من معظم المعاملات، فإن الشاهد "SegWit" يُحقق وفرة كبيرة في استخدام القرص وكذلك وقت المزامنة.  
 
-This same concept can apply to merkle proofs used for inter-blockchain communication. Once a proof is accepted and irreversibly logged into the blockchain, the 2KB of sha256 hashes used by the proof are no longer necessary to derive the proper blockchain state. In the case of inter-blockchain communication, this savings is 32x greater than the savings on normal signatures.
+هذا المفهوم نفسه يمكن أن ينطبق على أدلة ميركل المستخدمة للاتصال بين البلوكتشين. بمجرد قبول الدليل وتسجيله تسجيلًا لا رجعة فيه في البلوكتشين، فإن الهاش الخاص بـ "sha256" الذي حجمه 2 كيلوبايت ويُستخدم من قِبل الدليل؛ لم يعد لازمًا لاشتقاق الحالة المناسبة للبلوكتشين. في حالة التواصل بين البلوكتشين، هذه الوفورات هي أكبر بمقدار 32 مرة من الوفورات المتحققة للتوقيعات العادية.  
 
-Another example of SegWit would be for Steem blog posts. Under this model a post would contain only the sha256(blog content) and the blog content would be in the segregated witness data. The block producer would verify that the content exists and has the given hash, but the blog content would not need to be stored in order to recover the current state from the blockchain log. This enables proof that the content was once known without having to store said content forever.
+تمثل منشورات مدونة منصة "Steem" مثالًا آخر على استخدام الشاهد المنفصل "SegWit". في إطار هذا النموذج، ستحتوي المشاركة فقط على "sha256" (محتوى المدونة) وسيكون محتوى المدونة موجودًا في بيانات الشاهد المنفصل. يتحقق منتج الكتل من وجود المحتوى وأن له الهاش "Hash" المخصص له، لكن محتوى المدونة لن يحتاج إلى تخزينه من أجل استعادة الحالة الحالية من سجل البلوكتشين. وهذا يُمكّن من إثبات أن المحتوى كان معروفًا من قبل؛ وذلك دون الحاجة إلى تخزين المحتوى المذكور إلى الأبد.
 
-# Conclusion
+# الاستنتاج 
 
-The EOS.IO software is designed from experience with proven concepts and best practices, and represents fundamental advancements in blockchain technology. The software is part of a holistic blueprint for a globally scalable blockchain society in which decentralized applications can be easily deployed and governed.
+صُمم برنامج EOS.IO من خلال خبرة بالمفاهيم المجربة وأفضل الممارسات، ويمثل التطورات الأساسية في تقنية البلوكتشين. يعتبر البرنامج جزءً من مخطط شامل لمجتمع بلوكتشين قابل للتوسع عالمياً؛ حيث يمكن نشر التطبيقات اللامركزية وحوكمتها بسهولة.

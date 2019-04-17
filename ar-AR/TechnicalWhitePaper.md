@@ -226,178 +226,178 @@
 جزء مما يعنيه التنفيذ المتوازي أنه عند إنشاء البرنامج النصي لإجراء جديد؛ فإنه لا يٌسلّم على الفور. بل من المقرر تسليمه في الدورة التالية. والسبب في عدم إمكانية التسليم الفوري هو أن المتلقي قد يُعدّل حالته تعديلًا نشطًا في جزء آخر. 
 
 
-## Minimizing Communication Latency
+## تقليل تأخر الاتصالات
 
-Latency is the time it takes for one account to send an Action to another account and then receive a response. The goal is to enable two accounts to exchange Actions back and forth within a single block without having to wait 0.5 seconds between each Action. To enable this, the EOS.IO software divides each block into cycles. Each cycle is divided into shards and each shard contains a list of transactions. Each transaction contains a set of Actions to be delivered. This structure can be visualized as a tree where alternating layers are processed sequentially and in parallel.
+وقت الاستجابة هو الوقت الذي يستغرقه حساب واحد لإرسال إجراء إلى حساب آخر ثم تلقي استجابة. الهدف هو تمكين حسابين من تبادل الإجراءات ذهابًا وإيابًا داخل كتلة واحدة دون الحاجة إلى الانتظار 0.5 ثانية بين كل إجراء. لتمكين هذا، يُقسّم برنامج EOS.IO كل كتلة إلى دورات. تنقسم كل دورة إلى أجزاء، ويحتوي كل جزء على قائمة بالمعاملات. تحتوي كل معاملة على مجموعة من الإجراءات من المنتظر تسليمها. يمكن تصور هذه البنية كشجرة؛ حيث تُعالج الطبقات المتعاقبة بالتتابع وبالتوازي.
 
-      Block
+      الكتلة
 
-        Region
+        المنطقة
 
-          Cycles (sequential)
+          دورات (متسلسلة)
 
-            Shards (parallel)
+            الأجزاء (موازية)
 
-              Transactions (sequential)
+              المعاملات (متسلسلة)
 
-                Actions (sequential)
+                الإجراءات (متسلسلة)
 
-                  Receiver and Notified Accounts (parallel)
+                  المتلقي والحسابات المُشعرة (متوازي)
 
-Transactions generated in one cycle can be delivered in any subsequent cycle or block. Block producers will keep adding cycles to a block until the maximum wall clock time has passed or there are no new generated transactions to deliver.
+يمكن تسليم المعاملات الناتجة من دورة واحدة في أي دورة أو كتلة لاحقة. سيستمر منتجو الكتل في إضافة دورات إلى الكتلة حتى يمر الحد الأقصى لساعة الحائط(maximum wall clock time)؛ أو في حالة عدم إنتاج معاملات جديدة. 
 
-It is possible to use static analysis of a block to verify that within a given cycle no two shards contain transactions that modify the same account. So long as that invariant is maintained a block can be processed by running all shards in parallel.
+من الممكن استخدام التحليل الثابت للكتلة للتحقق من عدم وجود جزئين يحتويان على معاملات تجري تعديلات على نفس الحساب خلال دورة معينة. وطالما تم الحفاظ على هذا الثابت؛ فيمكن معالجة الكتلة من خلال تشغيل جميع الأجزاء "shards" تشغيلًا متوازيًا
 
 
-## Read-Only Action Handlers
+## مُناوِلات الإجراء ذات خاصية القراءة فقط
 
-Some accounts may be able to process an Action on a pass/fail basis without modifying their internal state. If this is the case, then these handlers can be executed in parallel so long as only read-only Action handlers for a particular account are included in one or more shards within a particular cycle.
+قد تتمكن بعض الحسابات من معالجة إجراء على أساس النجاح/الفشل دون تعديل حالتها الداخلية. في هذه هي الحالة يمكن تنفيذ هذه المناولات بالتوازي طالما كانت مُناوِلات الإجراءات ذات خاصية القراءة فقط لحساب معين ضمن جزء "shard" أو أكثر من الأجزاء داخل دورة معينة.
 
-## Atomic Transactions with Multiple Accounts
+## المعاملات الذرية مع حسابات متعددة
 
-Sometimes it is desirable to ensure that Actions are delivered to and accepted by multiple accounts atomically. In this case both Actions are placed in one transaction and both accounts will be assigned the same shard and the Actions applied sequentially.
+في بعض الأحيان يكون من المرغوب فيه التأكد من أن الإجراءات قد سُلمت إلى واستُلِمت من حسابات متعددة. في هذه الحالة، يوضع كلا الإجراءين في معاملة واحدة وسيخصص نفس الجزء "shard" لكل من الحسابين، بينما تطبق الإجراءات بالتسلسل.
 
-## Partial Evaluation of Blockchain State
+## التقييم الجزئي لحالة البلوكتشين
 
-Scaling blockchain technology necessitates that components are modular. Everyone should not have to run everything, especially if they only need to use a small subset of the applications.
+تتطلب تقنية البلوكتشين القابل للتوسع أن تكون المكونات من وحدات متماثلة. يجب ألا يضطر الجميع إلى تشغيل كل شيء، خاصةً إذا كانوا بحاجة فقط إلى استخدام مجموعة فرعية صغيرة من التطبيقات.  
 
-An exchange application developer runs full nodes for the purpose of displaying the exchange state to its users. This exchange application has no need for the state associated with social media applications. EOS.IO software allows any full node to pick any subset of applications to run. Actions delivered to other applications are safely ignored if your application never depends upon the state of another contract.
+يُشغّل مطور تطبيق التبادل عُقدًا كاملة "Nodes" لغرض عرض حالة التبادل لمستخدميها. لا يحتاج تطبيق التبادل هذا إلى أي حالة مرتبطة بتطبيقات وسائل التواصل الاجتماعية. يسمح برنامج EOS.IO لأي عقدة كاملة باختيار أي مجموعة فرعية من التطبيقات لتشغيلها. يجري تجاهل الإجراءات المرسلة إلى تطبيقات أخرى بأمان؛ إذا كان تطبيقك لا يعتمد أبداً على حالة عقد آخر.
 
 
-## Subjective Best Effort Scheduling
+## الجدولة الذاتية وفقًا لأفضل جهد
 
-The EOS.IO software cannot obligate block producers to deliver any Action to any other account. Each block producer makes their own subjective measurement of the computational complexity and time required to process a transaction. This applies whether a transaction is generated by a user or automatically by a smart contract.
+لا يمكن لبرنامج EOS.IO إلزام منتجي الكتل بتسليم أي إجراء إلى أي حساب آخر. يجري كل منتِج كتلة قياساته الذاتية لمدى التعقيد الحوسبي والوقت اللازم لمعالجة المعاملة. ينطبق هذا على المعاملات التي أُنشئت بواسطة مستخدم أو تلقائيًا بموجب عقد ذكي.  
 
-On a launched blockchain adopting the EOS.IO software, at a network level all transactions are billed a computational bandwidth cost based on the number of WASM instructions executed. However, each individual block producer using the software may calculate resource usage using their own algorithm and measurements. When a block producer concludes that a transaction or account has consumed a disproportionate amount of the computational capacity they simply reject the transaction when producing their own block; however, they will still process the transaction if other block producers consider it valid.
+في حالة تشغيل البلوكتشين باستخدام برنامج EOS.IO، تُحاسب جميع المعاملات على مستوى الشبكة على تكلفة عرض النطاق الحوسبي استنادًا إلى عدد تعليمات تقنية الويب أسيمبلي المنفذة "WASM". ومع ذلك، قد يحسب كل منتج كتل من مستخدمي البرنامج استخدام الموارد؛ وذلك باستخدام الخوارزميات والقياسات الخاصة به. عندما يستنتج منتج الكتلة أن المعاملة أو الحساب قد استهلك كمية غير متناسبة من القدرة الحوسبية، فإنه ببساطة يرفض الصفقة عند إنتاجه للكتلة الخاصة به؛ ومع ذلك فإنه سيستمر في معالجة المعاملة إذا اعتبرها منتجو الكتل الأخرى صالحة.  
 
-In general, so long as even 1 block producer considers a transaction as valid and under the resource usage limits then all other block producers will also accept it, but it may take up to 1 minute for the transaction to find that producer.
+عامة، طالما  اعتبر أحد منتجي الكتل أن المعاملة صالحة وتقع تحت حدود استخدام الموارد، فإن جميع منتجي الكتل الأخرى سيقبلونها أيضًا، ولكن قد يستغرق الأمر ما يصل إلى دقيقة واحدة كي تعثر المعاملة على ذلك المنتج. 
 
-In some cases, a producer may create a block that includes transactions that are an order of magnitude outside of acceptable ranges. In this case the next block producer may opt to reject the block and the tie will be broken by the third producer. This is no different than what would happen if a large block caused network propagation delays. The community would notice a pattern of abuse and eventually remove votes from the rogue producer.
+في بعض الحالات، قد يُنشئ المنتج كتلة تحتوي على معاملات ذات حجم كبير خارج النطاقات المقبولة. في هذه الحالة، قد يختار منتج الكتلة التالي رفض الكتلة وسيُكسر التعادل من قبل المنتج الثالث. هذا لا يختلف عما قد يحدث إذا تسببت كتلة كبيرة في تأخير انتشار الشبكة. سيلاحظ المجتمع نمطًا من إساءة الاستخدام وبالتالي يسحب الأصوات من المنتج المحتال. 
 
-This subjective evaluation of computational cost frees the blockchain from having to precisely and deterministically measure how long something takes to run. With this design there is no need to precisely count instructions which dramatically increases opportunities for optimization without breaking consensus.
+هذا التقييم الذاتي للتكلفة الحوسبية يحرر كتلة البلوكتشين من حمل الاضطرار إلى القياس الدقيق والحتمي لطول المدة التي يستغرقها تشغيل شيء ما. مع هذا التصميم لا توجد حاجة إلى حساب عدد التعليمات بدقة؛ وهي تزيد زيادة كبيرة من فرص التحسين دون كسر توافق الآراء.
 
-## Deferred Transactions
+## المعاملات المؤجلة
 
-EOS.IO Software supports deferred transactions that are scheduled to execute in the future. This enables computation to move to different shards and/or the creation of long-running processes that continuously schedule a continuance transaction.
+يدعم برنامج EOS.IO العمليات المؤجلة التي جُدولت لتُنفذ في المستقبل. يتيح ذلك انتقال الحوسبة إلى أجزاء "shards" مختلفة و/أو إنشاء عمليات طويلة الأمد تُجري جدولة مستمرة لمعاملة مستمرة.
 
-## Context Free Actions
+## إجراءات حرة السياق
 
-A Context Free Action involves computations that depend only on transaction data, but not upon the blockchain state. Signature verification, for example, is a computation that requires only the transaction data and a signature to determine the public key that signed the transaction. This is one of the most expensive individual computations a blockchain must perform, but because this computation is context free it can be performed in parallel.
+يتضمن الإجراء حر السياق "Context free Action" عمليات حوسبة تعتمد فقط على بيانات المعاملات وليس على حالة  البلوكتشين. على سبيل المثال؛ فالتحقق من صحة التوقيع عبارة عن عمليات حسابية تتطلب فقط بيانات المعاملة وتوقيعًا لتحديد المفتاح العمومي الذي وقع هذه المعاملة. وهذه واحدة من الحوسبات الفردية الأكثر تكلفة التي يجب أن يجريها البلوكتشين، ولكن لأن هذه الحوسبة حرة السياق “Context free" فيمكن إجراؤها بالتوازي. 
 
-Context Free Actions are like other user Actions, except they lack access to the blockchain state to perform validation. Not only does this enable EOS.IO to process all Context Free Actions such as signature verification in parallel, but more importantly, this enables generalized signature verification.
+تعتبر "الإجراءات حرة السياق" مثل إجراءات المستخدم الأخرى، إلا أنها تفتقر إلى الوصول إلى حالة البلوكتشين لإجراء عملية التحقق من الصحة. ولا يؤدي ذلك فقط إلى تمكين EOS.IO من معالجة جميع الإجراءات حرة السياق مثل التحقق المتوازي من التوقيع؛ ولكن الأهم أن هذا يتيح التحقق العام من التوقيع.  
 
-With support for Context Free Actions, scalability techniques such as Sharding, Raiden, Plasma, State Channels, and others become much more parallelizable and practical. This development enables efficient inter-blockchain communication and potentially unlimited scalability.
+مع توفير الدعم للإجراءات حرة السياق؛ فإن تقنيات التوسع مثل التجزئة "Sharding" ورايدن "Raiden" وبلازما "Plasma" وقنوات الحالة "State Channels" وغيرها تصبح عمليةً أكثر ويسهل إجراؤها بالتوازي. يُمكّن هذا التطوير من التواصل الفعال عبر البلوكتشين وبالتالي تحقيق إمكانية تطوير غير محدودة.
 
-# Token Model and Resource Usage
+# نموذج الرمز واستخدام الموارد
 
-**PLEASE NOTE: CRYPTOGRAPHIC TOKENS REFERRED TO IN THIS WHITE PAPER REFER TO CRYPTOGRAPHIC TOKENS ON A LAUNCHED BLOCKCHAIN THAT ADOPTS THE EOS.IO SOFTWARE. THEY DO NOT REFER TO THE ERC-20 COMPATIBLE TOKENS BEING DISTRIBUTED ON THE ETHEREUM BLOCKCHAIN IN CONNECTION WITH THE EOS TOKEN DISTRIBUTION.**
+**رجى ملاحظة التالي: الرموز المشفرة المشار إليها في هذه الورقة البيضاء تشير إلى الرموز المشفرة على بلوكتشين سبق إطلاقه بالفعل ويتبنى برنامج EOS.IO. ولا تشير إلى الرموز المميزة ERC-20 التي تُوزع على بلوكتشين الإيثريوم فيما يتصل بتوزيع رموز EOS.**
 
-All blockchains are resource constrained and require a system to prevent abuse. With a blockchain that uses EOS.IO software, there are three broad classes of resources that are consumed by applications:
+جميع أنظمة البلوكتشين مقيدة بالموارد وتتطلب نظام لمنع سوء الاستخدام. توجد مع البلوكتشين الذي يستخدم برنامج EOS.IO ثلاث فئات واسعة من الموارد التي تستهلكها التطبيقات: 
 
-1. Bandwidth and Log Storage (Disk);
-2. Computation and Computational Backlog (CPU); and
-3. State Storage (RAM).
+1. عرض النطاق وتخزين السجل "Bandwidth and Log Storage" (القرص "Disk") ;
+2. الحوسبة والسجل الحوسبي الخلفي "Computation and Computational Backlog" (CPU) ; و
+3. تخزين الحالة "State Storage" (RAM) .
 
-Bandwidth and computation have two components, instantaneous usage and long-term usage. A blockchain maintains a log of all Actions and this log is ultimately stored and downloaded by all full nodes. With the log of Actions, it is possible to reconstruct the state of all applications.
+يوجد مكونان لدى عرض النطاق والحوسبة، الاستخدام الفوري والاستخدام على المدى الطويل. يحتفظ البلوكتشين بسجل يحتوي على جميع الإجراءات؛ ويُحفظ هذا السجل ويُنزّل في نهاية المطاف بواسطة جميع العقد الكاملة. وبواسطة سجل الإجراءات من الممكن إعادة بناء الحالة لكافة التطبيقات. 
 
-The computational debt is calculations that must be performed to regenerate state from the Action log. If the computational debt grows too large then, it becomes necessary to take snapshots of the blockchain's state and discard the blockchain's history. If computational debt grows too quickly then it may take 6 months to replay 1 year worth of transactions. It is critical, therefore, that the computational debt be carefully managed.
+الدَين الحوسبي "computational debt" عبارة عن عمليات حسابية يجب تنفيذها لإعادة توليد الحالة من خلال سجل الإجراءات. إذا كان الدَين الحوسبي ينمو نموًا كبيرًا؛ يصبح من الضروري أخذ لقطات من حالة البلوكتشين وتجاهل تاريخ البلوكتشين. إذا زادت الديون الحوسبية زيادة كبيرة؛ فقد يستغرق الأمر 6 أشهر لإعادة عرض التعاملات الخاصة بسنة واحدة. لذلك فإدارة الدين الحوسبي بعناية أمر شديد الأهمية.  
 
-Blockchain state storage is information that is accessible from application logic. It includes information such as order books and account balances. If the state is never read by the application, then it should not be stored. For example, blog post content and comments are not read by application logic, so they should not be stored in the blockchain's state. Meanwhile the existence of a post/comment, the number of votes, and other properties do get stored as part of the blockchain's state.
+"تخزين حالة البلوكتشين" عبارة عن المعلومات التي يمكن لمنطق التطبيق الوصول إليها. ويشمل معلومات مثل سجلات الأوامر وأرصدة الحسابات. إذا لم يقرأ التطبيق الحالة من قبل فلا ينبغي تخزينها. على سبيل المثال، لا يقرأ منطق التطبيقات محتوى مشاركات المدونة والتعليقات، لذلك لا يجب تخزينها في حالة البلوكتشين. ومن ناحية أخرى؛ فإن وجود منشور أو تعليق وكذلك عدد الأصوات وخصائص أخرى يجري تخزينها بوصفها جزءً من حالة البلوكتشين. 
 
-Block producers publish their available capacity for bandwidth, computation, and state. The EOS.IO software allows each account to consume a percentage of the available capacity proportional to the amount of tokens held in a 3-day staking contract. For example, if a blockchain based on the EOS.IO software is launched and if an account holds 1% of the total tokens distributable pursuant to that blockchain, then that account has the potential to utilize 1% of the state storage capacity.
+ينشر منتجو الكتل قدراتهم المتاحة بخصوص عرض النطاق والحوسبة والحالة. يسمح برنامج EOS.IO لكل حساب باستهلاك نسبة مئوية من السعة المتاحة بما يتناسب مع كمية الرموز المحتفظ بها في عَقد محاصصة لمدة 3 أيام. على سبيل المثال، إذا أُطلق بلوكتشين قائم على برنامج EOS.IO واحتفظ أحد الحسابات بنسبة 1٪ من إجمالي الرموز "Tokens" القابلة للتوزيع وفقًا لهذا البلوكتشين فسيكون لهذا الحساب إمكانية استخدام 1٪ من سعة تخزين الحالة. 
 
-Adopting the EOS.IO software on a launched blockchain means bandwidth and computational capacity are allocated on a fractional reserve basis because they are transient (unused capacity cannot be saved for future use). The algorithm used by EOS.IO software is similar to the algorithm used by Steem to rate-limit bandwidth usage.
+إن استخدام برنامج EOS.IO للبلوكتشين الذي أطلق يعني تخصيص عرض النطاق والقدرة الحوسبية يتم على أساس احتياطي نسبي، وذلك لأنها مؤقتة (لا يمكن حفظ السعة غير المستخدمة للاستخدام لاحقًا). تشبه الخوارزمية المستخدمة بواسطة برنامج EOS.IO تلك الخوارزمية المستخدمة من قبل منصة Steem للاستخدام المحدود لمعدلات عرض النطاق.
 
-## Objective and Subjective Measurements
+## القياسات الموضوعية والشخصية
 
-As discussed earlier, instrumenting computational usage has a significant impact on performance and optimization; therefore, all resource usage constraints are ultimately subjective, and enforcement is done by block producers according to their individual algorithms and estimates. These would typically be implemented by a block producer via the writing of a custom plugin.
+كما ذكرنا سابقًا، فإن استخدام القدرة الحوسبية له تأثير كبير على الأداء والتحسين؛ لذلك تكون جميع قيود استخدام الموارد شخصية " Subjective " في النهاية، وتُنفذ هذه القيود بواسطة منتجي الكتل وفقًا لخوارزمياتهم الفردية وتقديراتهم. عادة ما يُنفذ هذا بواسطة منتجي الكتل عن طريق كتابة ملحق "plugin" مخصَصَ. 
 
-That said, there are certain things that are trivial to measure objectively. The number of Actions delivered, and the size of the data stored in the internal database are cheap to measure objectively. The EOS.IO software enables block producers to apply the same algorithm over these objective measures but may choose to apply stricter subjective algorithms over subjective measurements.
+ومع ذلك، فهناك أشياء لا تحتاج للقياس الموضوعي نظرًا لبساطتها. من الأرخص إجراء القياس الموضوعي لعدد الإجراءات المُسلّمة وحجم البيانات المخزنة في قاعدة البيانات الداخلية. يُمكّن برنامج EOS.IO منتجي الكتل من تطبيق نفس الخوارزمية على هذه المقاييس الموضوعية ولكنهم قد يختارون تطبيق خوارزميات ذاتية أكثر صرامة على القياسات الشخصية. 
 
-## Receiver Pays
+## الدفع بواسطة المتلقي
 
-Traditionally, it is the business that pays for office space, computational power, and other costs required to run the business. The customer buys specific products from the business and the revenue from those product sales is used to cover the business costs of operation. Similarly, no website obligates its visitors to make micropayments for visiting its website to cover hosting costs. Therefore, decentralized applications should not force its customers to pay the blockchain directly for the use of the blockchain.
+تقليديًا، النشاط التجاري يدفع تكاليف المساحة المكتبية، القدرات الحوسبية وغيرها من التكاليف اللازمة لإدارة الأعمال. يشتري العميل منتجات معينة من هذا النشاط وتُستخدم الإيرادات الناتجة من مبيعات المنتجات هذه لتغطية تكاليف التشغيل. وبالمثل، لا يُلزم أي موقع ويب زائريه بإجراء عمليات دفع مصغرة مقابل زيارة الموقع على الويب لتغطية تكاليف الاستضافة. لذلك، يجب ألا تُجبر التطبيقات اللامركزية عملاءها على الدفع بالبلوكتشين مباشرة نظير استخدام البلوكتشين.  
 
-A launched blockchain that uses the EOS.IO software does not require its users to pay the blockchain directly for its use and therefore does not constrain or prevent a business from determining its own monetization strategy for its products.
+لا يتطلب البلوكتشين المبني على برنامج EOS.IO من مستخدميه الدفع لإستخدام البلوكتشين مباشرة، وبالتالي لا يمنع أو يعيق الشركات من تحديد استراتيجية تحقيق الربح لمنتجاتها. 
 
-While it is true that the receiver can pay, EOS.IO enables the sender to pay for bandwidth, computation, and storage. This empowers application developers to pick the method that is best for their application. In many cases sender-pays significantly reduces complexity for application developers who do not want to implement their own rationing system. Application developers can delegate bandwidth and computation to their users and then let the “sender pays” model enforce the usage. From the perspective of the end user it is free, but from the perspective of the blockchain it is sender-pays.
+وعلى الرغم من قدرة المتلقي على الدفع؛  فإن EOS.IO يُمكّن المرسل من الدفع مقابل عرض النطاق والحوسبة والتخزين. يُمكّن هذا مطوري التطبيقات من اختيار الطريقة الأفضل لتطبيقاتهم. في العديد من الحالات، يقلل الدفع بواسطة المُرسل من التعقيدات الخاصة بمطوري التطبيقات؛ الذين لا يرغبون في تطبيق نظامهم الخاص "rationing system". يمكن لمطوري التطبيقات تفويض "تحصيص" عرض النطاق والحوسبة لمستخدميهم، ثم السماح لنموذج “sender pays” بإنفاذ الاستخدام. من منظور المستخدم النهائي فالأمر مجاني، ولكن من منظور البلوكتشين فالأمر بنظام الدفع بواسطة المرسل.
 
-## Delegating Capacity
+## تفويض الموارد
 
-A holder of tokens on a blockchain launched adopting the EOS.IO software who may not have an immediate need to consume all or part of the available bandwidth, can delegate or rent such unconsumed bandwidth to others; the block producers running EOS.IO software on such blockchain will recognize this delegation of capacity and allocate bandwidth accordingly.
+إن حاملي الرموز على البلوكتشين الذي أُطلق اعتمادًا على برنامج EOS.IO الذي قد لا يكون بحاجة فورية إلى استهلاك عرض النطاق " bandwidth" المتوفر بأكمله أو جزء منه؛ يمكنه تفويض عرض النطاق غير المستهلك أو تأجيره للآخرين؛ سيلحظ منتجو الكتل الذين يشغلون برنامج EOS.IO على هذا البلوكتشين هذا التفويض في السعة وسيخصصون عرض النطاق وفقًا لذلك.
 
-## Separating Transaction costs from Token Value
+## فصل تكاليف المعاملة عن قيمة الرمز
 
-One of the major benefits of the EOS.IO software is that the amount of bandwidth available to an application is entirely independent of any token price. If an application owner holds a relevant number of tokens on a blockchain adopting EOS.IO software, then the application can run indefinitely within a fixed state and bandwidth usage. In such case, developers and users are unaffected from any price volatility in the token market and therefore not reliant on a price feed. In other words, a blockchain that adopts the EOS.IO software enables block producers to naturally increase bandwidth, computation, and storage available per token independent of the token's value.
+تتمثل إحدى المزايا الرئيسية لبرنامج EOS.IO في أن مقدار عرض النطاق "bandwidth" المتاح لتطبيق ما مستقل تمامًا عن أي سعر للرموز. إذا كان مالك التطبيق يحمل عددًا مناسبًا من الرموز على البلوكتشين الذي يستخدم برنامج EOS.IO، فيمكن تشغيل التطبيق إلى أجل غير مسمى ضمن استخدام محدد للموارد وعرض النطاق. في هذه الحالة، لا يتأثر المطورون والمستخدمون بأي تقلبات في سعر سوق الرموز، وبالتالي لا يهتمون بأخبار الأسعار الواردة "Price Feed". وبعبارة أخرى، فإن البلوكتشين الذي يستخدم برنامج EOS.IO يُمكّن منتجي الكتل من تحقيق زيادة طبيعية لعرض النطاق والحوسبة والتخزين المتاحين لكل رمز دون النظر لقيمة هذا الرمز. 
 
-A blockchain using EOS.IO software also awards block producers tokens every time they produce a block. The value of the tokens will impact the amount of bandwidth, storage, and computation a producer can afford to purchase; this model naturally leverages rising token values to increase network performance.
+كما يمنح البلوكتشين الذي يستخدم برنامج EOS.IO رموزًا لمنتجي الكتل في كل مرة ينتجون فيها كتلة. ستؤثر قيمة الرموز على مقدار عرض النطاق والتخزين والحوسبة التي يمكن للمنتج تحمل نفقات شراءها؛ هذا النموذج يعزز بدوره زيادة قيمة الرموز لزيادة أداء الشبكة.
 
-## State Storage Costs
+## تكاليف تخزين الحالة
 
-While bandwidth and computation can be delegated, storage of application state will require an application developer to hold tokens until that state is deleted. If state is never deleted, then the tokens are effectively removed from circulation.
+في حين يمكن تفويض "تحصيص" عرض النطاق والحوسبة، سيتطلب تخزين حالة التطبيق أن يحتفظ مطور تطبيق برموز إلى أن تُحذف هذه الحالة. إذا لم تُحذف الحالة أبدًا، فستُزال الرموز من التداول.
 
-## Block Rewards
+## مكافئات الكتلة
 
-A blockchain that adopts the EOS.IO software will award new tokens to a block producer every time a block is produced. In these circumstances, the number of tokens created is determined by the median of the desired pay published by all block producers. The EOS.IO software may be configured to enforce a cap on producer awards such that the total annual increase in token supply does not exceed 5%.
+ستمنح البلوكتشين الذي يستخدم برنامج EOS.IO رموزًا جديدة لمنتج الكتل في كل مرة تنتج فيها كتلة. في هذه الظروف، تُحدد عدد الرموز التي أُنشئت بواسطة حساب متوسط المقابل المادي المطلوب المُعلن من قبل جميع منتجي الكتل. قد يكون برنامج EOS.IO مهيئًا بطريقة تفرض سقفًا على جوائز المنتجين؛ بحيث لا يتجاوز إجمالي الزيادة السنوية في إجمالي عدد الرموز نسبة 5٪.
 
-## Worker Proposal System
+## نظام اقتراح العمال
 
-In addition to electing block producers, pursuant to a blockchain based on the EOS.IO software, token holders can elect a number of Worker Proposals designed to benefit the community. The winning proposals will receive tokens of up to a configured percent of the token inflation minus those tokens that have been paid to block producers. These proposals will receive tokens proportional to the votes each application has received from token holders, up to the amount they request for performing their work. The elected proposals can be replaced by newly elected proposals by token holders.
+بالإضافة إلى انتخاب منتجي الكتل، وفقًا للبلوكتشين المستند إلى برنامج EOS.IO؛ يمكن لحاملي الرموز اختيار عدد من مقترحات العمال المصممة لمنفعة المجتمع. ستحصل المقترحات الفائزة على رموز تصل إلى نسبة مئوية معدة مسبقًا من تضخم الرموز مطروحًا منها تلك الرموز التي دُفعت بالفعل إلى منتجي الكتل. ستتلقى هذه المقترحات رموزاً تتناسب مع الأصوات التي تلقاها كل تطبيق من حاملي الرموز، وصولاً إلى الكمية الذي يطلبونها لتنفيذ عملهم. يمكن استبدال المقترحات المنتخبة بالمقترحات المنتخبة حديثًا من قبل أصحاب الرموز.  
 
-The system contracts that implement Worker Proposals may not be in place at initial launch in June 2018, but the funding mechanism will. It will begin to accumulate funds at the same time block producer awards start. Since the Worker Proposal System will be implemented in WASM it can be added at a later date without a fork.
+قد لا تكون عقود النظام التي تنفذ مقترحات العمال متاحةً عند الإطلاق الأولي في يونيو 2018، ولكن آلية التمويل ستكون متاحة. وسوف تبدأ في تجميع الأموال في نفس الوقت بدء جوائز منتجي الكتل. وبما أن نظام تقديم عروض العمل سيُنفذ في تقنية WebAssembly "WASM"، فيمكن إضافته في وقت لاحق دون وجود انقسام. 
 
 
-# Governance
+# الحوكمة
 
-Governance is the process by which people in a community:
+الحوكمة هي العملية التي يقوم فيها الأفراد في المجتمع بأداء ما يلي: 
 
-1. Reach consensus on subjective matters of collective action that cannot be captured entirely by software algorithms;
-2. Carry out the decisions they reach; and
-3. Alter the governance rules themselves via Constitutional amendments. 
+1. التوصل إلى توافق في الآراء بشأن المسائل الذاتية للعمل الجماعي التي لا يمكن التقاطها بالكامل بواسطة خوارزميات البرمجيات؛  
+2. تنفيذ القرارات التي توصلوا إليها؛ وتغيير قواعد الحوكمة نفسها من خلال التعديلات الدستورية; و
+3. تغيير الحكم يحكم أنفسهم من خلال التعديلات الدستورية.
 
-An EOS.IO software-based blockchain implements a governance process that efficiently directs the existing influence of block producers. Absent a defined governance process, prior blockchains relied ad hoc, informal, and often controversial governance processes that result in unpredictable outcomes.
+يطبق نظام البلوكتشين القائم على برنامج EOS.IO عملية حوكمة تعمل على التوجيه الكفؤ للتأثير القائم لمنتجي الكتل. في غياب عملية إدارة محددة ، اعتمدت البلوكتشين السابقة على عمليات حوكمة مخصصة وغير رسمية وغالباً ما كانت مثيرة للجدل، مما أدى إلى وقوع نتائج غير متوقعة.  
 
-A blockchain based on the EOS.IO software recognizes that power originates with the token holders who delegate that power to the block producers. The block producers are given limited and checked authority to freeze accounts, update defective applications, and propose hard forking changes to the underlying protocol.
+يُدرك البلوكتشين الذي يستخدم برنامج EOS.IO أن السلطة تنشأ من أصحاب الرموز الذين يفوضون هذه السلطة لمنتجي الكتل. يُمنح منتجو الكتل سلطة محدودة ومحددة لتجميد الحسابات وتحديث التطبيقات المعيبة واقتراح ان تعديلات تقتضي انقسامات "hard fork" جديد لإجراء التعديلات على البروتوكول الأساسي. 
 
-Embedded into the EOS.IO software is the election of block producers. Before any change can be made to the blockchain these block producers must approve it. If the block producers refuse to make changes desired by the token holders then they can be voted out. If the block producers make changes without permission of the token holders then all other non-producing full-node validators (exchanges, etc) will reject the change.
+نظام انتخاب منتجي الكتل مُدمج في برنامج EOS.IO. تلزم موافقة منتجي الكتل قبل إجراء أي تغيير على البلوكتشين. إذا رفض منتجو الكتل إجراء تغييرات مطلوبة من قبل حاملي الرموز، فيمكنهم التصويت باستبعادهم. إذا أجرى منتجو الكتل تغييرات دون الحصول على إذن من حاملي الرموز، فحينئذٍ سيرفض المتحققون من صلاحية العُقد الكاملة غير المُنتجين " non-producing full-node validators " (مثل منصات التداول وغيرها) هذا التغيير.  
 
-## Freezing Accounts
+## تجميد الحسابات
 
-Sometimes a smart contact behaves in an aberrant or unpredictable manner and fails to perform as intended; other times an application or account may discover an exploit that enables it to consume an unreasonable amount of resources. When such issues inevitably occur, the block producers have the power to rectify such situations.
+في بعض الأحيان يتصرف العقد الذكي تصرفًا شاذًا أو لا يمكن التنبؤ به ويفشل في الأداء على النحو المنشود؛ وفي أحيان أخرى قد يكتشف التطبيق أو الحساب إساءة استغلال يمكن من خلالها استهلاك كمية غير معقولة من الموارد. عندما تحدث مثل هذه الأمور الحتمية، يتمتع منتجو الكتل بالسلطة اللازمة لتصحيح مثل هذه المواقف.  
 
-The block producers on all blockchains have the power to select which transactions are included in blocks which gives them the ability to freeze accounts. A blockchain using EOS.IO software formalizes this authority by subjecting the process of freezing an account to a 15/21 vote of active producers. If the producers abuse the power they can be voted out and an account will be unfrozen.
+يتمتع منتجو الكتل في جميع أنواع البلوكتشين بالقدرة على اختيار المعاملات التي تُضمّن في الكتل؛ مما يمنحهم القدرة على تجميد الحسابات. يضفي البلوكتشين المستخدم لبرنامج EOS.IO طابعًا رسميًا على هذه السلطة من خلال إخضاع عملية تجميد الحسابات إلى تصويت بنسبة 15 من أصل 21 من أصوات المنتجين النشطين. إذا أساء المنتجون استخدام السلطة؛ فيمكن وقتها التصويت على استبعادهم وسيُلغى تجميد الحساب. 
 
-## Changing Account Code
+## تغيير رمز الحساب
 
-When all else fails and an "unstoppable application" acts in an unpredictable manner, a blockchain using EOS.IO software allows the block producers to replace the account's code without hard forking the entire blockchain. Similar to the process of freezing an account, this replacement of the code requires a 15/21 vote of elected block producers.
+عندما يفشل كل شيء آخر ويعمل "تطبيق لا يمكن إيقافه" على نحو لا يمكن التنبؤ بها؛ فإن البلوكتشين باستخدام برنامج EOS.IO يسمح لمنتجي الكتل باستبدال رمز الحساب "Code" دون أن التسبب في انقسام للبلوكتشين بأكمله. على غرار عملية تجميد الحساب، يتطلب هذا التغيير للرمز تصويتًا بالموافقة بنسبة 15 من أصل 21 من منتجي الكتل المنتخبين.
 
-## Constitution
+## الدستور
 
-The EOS.IO software enables blockchains to establish a peer-to-peer terms of service agreement or a binding contract among those users who sign it, referred to as a "constitution". The content of this constitution defines obligations among the users which cannot be entirely enforced by code and facilitates dispute resolution by establishing jurisdiction and choice of law along with other mutually accepted rules. Every transaction broadcast on the network must incorporate the hash of the constitution as part of the signature and thereby explicitly binds the signer to the contract.
+يمكّن برنامج EOS.IO البلوكتشين من إنشاء اتفاقية شروط خدمة النظير إلى النظير "peer-to-peer" أو عقدًا ملزمًا بين المستخدمين الذين يوقعون عليه، ويُشار إليهم بـ "الدستور". يحدد محتوى هذا الدستور الالتزامات بين المستخدمين التي لا يمكن إنفاذها بالكامل عن طريق رمز البرمجة "Code"؛ كما يسهل حل النزاعات من خلال تحديد الاختصاص واختيار القانون إلى جانب القواعد الأخرى المقبولة قبولًا متبادلًا. يجب أن تتضمن كل عملية تبث على الشبكة الهاش "Hash" من الدستور كجزء من التوقيع وبالتالي تربط صراحة بين المُوقِّع والعقد.  
 
-The constitution also defines the human-readable intent of the source code protocol. This intent is used to identify the difference between a bug and a feature when errors occur and guides the community on what fixes are proper or improper.
+كما يحدد الدستور الغرض البشري المقروء من بروتوكول الشفرة المصدرية. يتم استخدام هذه الغرض لتحديد الفرق بين الخطأ البرمجي "bug" والميزة عند حدوث الأخطاء وإرشاد المجتمع بخصوص الإصلاحات المناسبة أو غير المناسبة.  
 
-## Upgrading the Protocol & Constitution
+## ترقية البروتوكول والدستور
 
-The EOS.IO software defines the following process by which the protocol, as defined by the canonical source code and its constitution, can be updated:
+يحدد برنامج EOS.IO العملية التالية التي يمكن من خلالها تحديث البروتوكول كما هو محدد بواسطة الشفرة المصدرية الأساسية ودستورها:
 
-1.  Block producers propose a change to the constitution and obtains 15/21 approval.
-2.  Block producers maintain 15/21 approval of the new **constitution** for 30 consecutive days.
-3.  All users are required to indicate acceptance of the new constitution as a condition of future transactions being processed.
-4.  Block producers adopt changes to the source code to reflect the change in the constitution and propose it to the blockchain using the hash of the new constitution.
-5.  Block producers maintain 15/21 approval of the new **code** for 30 consecutive days.
-6.  Changes to the code take effect 7 days later, giving all non-producing full nodes 1 week to upgrade after ratification of the source code.
-7.  All nodes that do not upgrade to the new code shut down automatically.
+1.  يقترح منتجو الكتل تغييرًا في الدستور ويحصلون على تصويت بالموافقة بنسبة 15 من أصل 21 صوتًا.
+2.  يحتفظ منتجو الكتل بنسبة موافقة على **لدستور** الجديد تبلغ 15 من أصل 21 لمدة 30 يومًا متتالية. 
+3.  يُطلب من جميع المستخدمين الإشارة إلى قبولهم الدستور الجديد شرطًا لمعالجة المعاملات المستقبلية.
+4.  يتبنى منتجو الكتل تغييرات في الشفرة المصدرية لتجسّد التغيير في الدستور؛ ويقترحونها على البلوكتشين باستخدام هاش"hash" الدستور الجديد.
+5.  يحتفظ منتجو الكتل بنسبة موافقة على  **الكود** الجديد في 30 يوم متتالية.
+6.  تسري التغييرات التي أُجريت على الشفرة بعد 7 أيام، مما يعطي جميع العُقد الكاملة غير المنتجة " non-producing full nodes " أسبوعًا واحدًا للترقية بعد التصديق على شفرة المصدر.
+7.  تُغلق تلقائيًا كافة العُقد التي لم تُرقَ إلى الشفرة الجديدة.
 
-By default, configuration of the EOS.IO software, the process of updating the blockchain to add new features takes 2 to 3 months, while updates to fix non-critical bugs that do not require changes to the constitution can take 1 to 2 months.
+وفق التكوين الافتراضي لبرنامج EOS.IO، تستغرق عملية تحديث البلوكتشين لإضافة ميزات جديدة من شهرين إلى 3 أشهر، بينما تستغرق التحديثات لإصلاح الأعطاب غير الحرجة التي لا تتطلب تغييرات في الدستور فترة تتراوح من شهر إلى شهرين. 
 
-### Emergency Changes
+### التغييرات الطارئة
 
-The block producers may accelerate the process if a software change is required to fix a harmful bug or security exploit that is actively harming users. Generally speaking it could be against the constitution for accelerated updates to introduce new features or fix harmless bugs.
+قد يُسرع منتجو الكتل بعملية التغيير إذا كان تغيير البرنامج مطلوبًا لإصلاح خلل ضار أو ثغرة أمان تضر المستخدمين بالفعل. عمومًا يمكن أن يكون إدخال ميزات جديدة أو إصلاح الخلل غير الضار بواسطة التحديثات المُعجلة أمرًا مخالفًا للدستور.
 
-# Scripts & Virtual Machines
+# المخطوطات والحواسيب الافتراضية
 
-The EOS.IO software will be first and foremost a platform for coordinating the delivery of authenticated messages (called Actions) to accounts. The details of scripting language and virtual machine are implementation specific details that are mostly independent from the design of the EOS.IO technology. Any language or virtual machine that is deterministic and properly sandboxed with sufficient performance can be integrated with the EOS.IO software API.
+EOS.IO ستكون المنصة الأولى والسبّاقة لتنسيق تسليم الرسائل الموثوقة (تُسمى الإجراءات) إلى الحسابات. إن تفاصيل لغة البرمجة النصية والجهاز الافتراضي عبارة عن تفاصيل خاصة بالتنفيذ وغالبًا ما تكون مستقلة عن تصميم تقنية EOS.IO. يمكن دمج أي لغة أو VM مع الـAPI الخاص بـEOS.IO.
 
 ## Schema Defined Actions
 
